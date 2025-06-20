@@ -48,7 +48,7 @@ class Curve:
     
     # Point addition method
     def point_add(self, P: Point, Q: Point) -> Point:
-        # Cases where P or Q is None
+        # Cases where P or Q is None (Point at infinity)
         if P is None:
             return Q
         if Q is None:
@@ -57,7 +57,7 @@ class Curve:
         x1, y1 = P
         x2, y2 = Q
 
-        # Case when P + (-P) = 0
+        # Case when P + (-P) = 0 where Q = -P 
         if x1 == x2 and (y1 + y2) % p == 0:
             return None
         
@@ -71,7 +71,49 @@ class Curve:
         y3 = (m * (x1 - x3) - y1) % p
 
         return (x3, y3)
+    
+    def escalar_mult(self, k: int, P: Point) -> Point:
+        result: Point = None
+        addend: Point = P
 
+        while k:
+            # if number k is odd the addition is between different points
+            if (k & 1): # k % 2 == 1
+                result = self.point_add(addend, result)
+            addend = self.point_add(addend, addend)
+            k >>= 1 # Integer division k // 2
+        
+        return result
+    
+    # Precomputation
+    def to_fractional(self, P: Point) -> Point:
+        if P is None:
+            return None
+        x, y = P
+        X = (x * pow(self.l, 2, self.p)) % self.p
+        Y = (y * pow(self.l, 3, self.p)) % self.p
+        return (X, Y)
+
+    def from_fractional(self, P: Point) -> Point:
+        if P is None:
+            return None
+        X, Y = P
+        linv = pow(self.l, -1, self.p)
+        x = (X * pow(linv, 2, self.p)) % self.p
+        y = (Y * pow(linv, 3, self.p)) % self.p
+        return (x, y)
+
+
+# Bob's key pair generation 
+def key_gen(curve: Curve, P: Point):
+    pass
+
+# Alice encrypt
+def encrypt(curve: Curve, bobP: Point, bobQ: Point, M: Point):
+    pass
+
+# Bob decrypt
+# def decrypt(curve: Curve, AliceQ: Point, C: Point)
 
 
 
