@@ -55,12 +55,10 @@ def point_add(self, P, Q):
 
     # Case for point doubling (P == Q)
     if P == Q:
-        m = (3 * pow(x1, 2) + self.A) * \
-            pow(2 * y1, -1, self.p) % self.p
+        m = (3 * pow(x1, 2) + self.A) * pow(2 * y1, -1, self.p) % self.p
     # Case for point addition (P != Q)
     else:
-        m = (y2 - y1) * \
-            pow(x2 - x1, -1, self.p) % self.p
+        m = (y2 - y1) * pow(x2 - x1, -1, self.p) % self.p
 
     x3 = (pow(m, 2) - x1 - x2) % self.p
     y3 = (m * (x1 - x3) - y1) % self.p
