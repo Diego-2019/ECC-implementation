@@ -29,7 +29,7 @@ print(f"x=X/{l}^2, y=Y/{l}^3")
 print("From ecuation E:")
 print(f"(Y/{l}^3)^2=(X/{l}^2)^3+(X/{l}^2)({aNum}/{aDen})+({bNum}/{bDen}) mod {p}")
 print("=>")
-print(f"Y^2=X^3={curve.A}X+{curve.B} mod {p}")
+print(f"Y^2=X^3+{curve.A}X+{curve.B} mod {p}")
 
 # Alice encrypts the message M
 print(f"\n\nAlice set the message M: {M}")
